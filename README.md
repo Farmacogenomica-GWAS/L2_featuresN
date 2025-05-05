@@ -19,7 +19,7 @@ This document describes the processing of the `L2_featuresN.hdf5` file using Pyt
     * The 3D coordinate datasets from the `coordinates` group were saved as individual CSV files, with a single column where each entry is a JSON string representing a 2D slice of the coordinate data.
     * The attributes from the `provenance_tracking` group were saved as column headers in a single-row CSV file named `provenance_tracking.csv`.
 
-5.  **Visualization of the datasets:** The first 5 rows of each generated CSV file (from both top-level datasets and the `coordinates` and `provenance_tracking` groups) were printed to the console to provide a quick overview of the extracted data.
+5.  **Visualization of the datasets:** The first 5 rows of each generated CSV file (from both top-level datasets and the groups) were printed to the console to provide a quick overview of the extracted data.
 
 **Libraries Used:**
 
