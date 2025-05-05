@@ -1,47 +1,33 @@
 # L2_featuresN File Processing
 
-The `L2_featuresN.hdf5` file was processed using Python, h5py, and pandas. The primary goal was to extract data and metadata from the file and convert it into a more accessible CSV format. The `L2_featuresN.hdf5` file was obtained by using the Tierpsy Tracker.
+This document describes the processing of the `L2_featuresN.hdf5` file using Python and the `h5py`, `pandas`, and `json` libraries. The primary goal was to extract relevant data from the file and convert it into a more accessible CSV format. The `L2_featuresN.hdf5` file was obtained by using the Tierpsy Tracker.
 
-## Key Steps:
+**Key Steps:**
 
-1.  **File Inspection**: The `L2_featuresN.hdf5` file was inspected to identify its structure and contents, including groups and datasets.
+1.  **File Inspection:** The `L2_featuresN.hdf5` file was inspected to identify its top-level datasets and groups. The sizes of the top-level datasets were printed to the console.
+2.  **Top-Level Dataset Extraction:** The following top-level datasets were extracted and converted to individual CSV files:
+    * `blob_features`
+    * `features_stats`
+    * `timeseries_data`
+    * `trajectories_data`
+3.  **Group Data Extraction:**
+    * **`coordinates` Group:** The datasets within the `coordinates` group (`dorsal_contours`, `skeletons`, and `ventral_contours`), which contain 3D coordinate data, were extracted. To preserve their structure, each 3D dataset was converted into a CSV file where each row contains a JSON string representing a 2D slice of the original data.
+    * **`provenance_tracking` Group:** The attributes (`CLASS`, `TITLE`, `VERSION`) within the `provenance_tracking` group were extracted and saved as a single-row CSV file.
 
-2.  **Dataset Extraction**:
+4.  **Output Format:**
+    * Top-level datasets were saved as individual CSV files with column headers derived from the dataset structure.
+    * The 3D coordinate datasets from the `coordinates` group were saved as individual CSV files, with a single column where each entry is a JSON string representing a 2D slice of the coordinate data.
+    * The attributes from the `provenance_tracking` group were saved as column headers in a single-row CSV file named `provenance_tracking.csv`.
 
-    * The following datasets were extracted and converted to individual CSV files:
+5.  **Visualization of the datasets:** The first 5 rows of each generated CSV file (from both top-level datasets and the `coordinates` and `provenance_tracking` groups) were printed to the console to provide a quick overview of the extracted data.
 
-        * `blob_features`
+**Libraries Used:**
 
-        * `features_stats`
+* `h5py`: For reading and navigating the HDF5 file structure, accessing datasets and groups, and reading attributes.
+* `pandas`: For creating and exporting DataFrames to CSV files and for displaying the first few rows.
+* `numpy`: Used implicitly by `h5py` for handling array data.
+* `json`: For converting the 3D coordinate data into JSON strings for storage in CSV files.
 
-        * `timeseries_data`
+**Purpose:**
 
-        * `trajectories_data`
-
-    * Non-dataset items were handled as follows:
-
-        * `coordinates`: This HDF5 group contains 3D datasets ('dorsal_contours', 'skeletons', 'ventral_contours'). These datasets were extracted and stored as JSON strings within individual CSV files to preserve their 3D structure.
-
-        * `provenance_tracking`: This HDF5 group contains metadata attributes ('CLASS', 'TITLE', 'VERSION'). These attributes were extracted and written to a single-row CSV file.
-
-3.  **Output Format**:
-
-    * Extracted datasets were saved as CSV files.
-
-    * 3D coordinate data ('dorsal_contours', 'skeletons', 'ventral_contours') was stored as JSON strings within individual CSV files.
-
-    * Metadata attributes from 'provenance_tracking' were saved as a single-row CSV file.
-
-## Libraries Used:
-
-* `h5py`: For reading and navigating the HDF5 file structure.
-
-* `pandas`: For creating and exporting DataFrames to CSV files.
-
-* `numpy`: For handling numerical data.
-
-* `json`: For converting 3D coordinate data to JSON strings.
-
-## Purpose:
-
-The processing steps outlined above were performed to make the data contained within the `L2_featuresN.hdf5` file more readily available for analysis. The conversion to CSV format allows for easier manipulation and exploration of the data using standard data analysis tools. The 3D coordinate data was stored as JSON to preserve its original structure, and the provenance tracking metadata was extracted to maintain important information about the data's origin.
+The processing steps outlined here were performed to make the data contained within the `L2_featuresN.hdf5` file more readily available for analysis. The conversion to CSV format allows for easier manipulation and exploration of the data using standard data analysis tools. The specific handling of the 3D coordinate data by storing it as JSON strings and the extraction of metadata from the `provenance_tracking` group were necessary to accommodate the structure of this HDF5 file. Visualizing the first few rows of each output CSV provides a quick check of the extraction process.
